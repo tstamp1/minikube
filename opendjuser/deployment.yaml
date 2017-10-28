@@ -10,6 +10,8 @@ spec:
       labels:
         app: opendjuser-ha
     spec:
+      imagePullSecrets:
+      - name: myregistrykey
       containers:
       - name: opendjuser
         image: tnstamp/opendjuser:0.3

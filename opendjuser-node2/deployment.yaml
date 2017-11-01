@@ -1,0 +1,47 @@
+apiVersion: apps/v1beta1
+kind: StatefulSet
+metadata:
+  name: opendjuser
+spec:
+  serviceName: opendjuser
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: opendjuser-ha
+    spec:
+      imagePullSecrets:
+      - name: myregistrykey
+      containers:
+      - name: opendjuser
+        image: tnstamp/opendjuser:0.3
+        imagePullPolicy: Always
+        resources:
+          limits:
+            cpu: 1
+            memory: 1Gi
+          requests:
+            cpu: 1
+            memory: 1Gi
+        ports:
+        - containerPort: 1389
+          name: ldap
+        - containerPort: 1636
+          name: ldaps
+        - containerPort: 4444
+          name: djadmin
+        - containerPort: 8989
+          name: replication
+        volumeMounts:
+          - name: data
+            mountPath: /opt/opendj/data
+  volumeClaimTemplates:
+  - metadata:
+      name: data
+      annotations:
+        volume.beta.kubernetes.io/storage-class: standard
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 10Gi

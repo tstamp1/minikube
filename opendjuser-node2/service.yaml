@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: oepndjuser-node2
+  name: opendjuser-node2
   labels:
-    name: oepndjuser-node2
-    app: oepndjuser-node2
+    name: opendjuser-node2
+    app: opendjuser-node2
 spec:
   clusterIP: None
   ports:
@@ -16,3 +16,9 @@ spec:
     name: dj-admin
   - port: 8989
     name: replication
+  selector:
+    app: opendjuser-node2
+  sessionAffinity: None
+  type: ClusterIP
+status:
+  loadBalancer: {}

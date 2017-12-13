@@ -14,7 +14,7 @@ spec:
       - name: myregistrykey
       containers:
       - name: opendjuser-node2
-        image: tnstamp/opendjnode-2:0.1
+        image: tnstamp/opendjnode-2:0.2
         imagePullPolicy: Always
         resources:
           limits:

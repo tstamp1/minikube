@@ -16,3 +16,9 @@ spec:
     name: dj-admin
   - port: 8989
     name: replication
+  selector:
+    app: opendjuser-node1
+  sessionAffinity: None
+  type: ClusterIP
+status:
+  loadBalancer: {}

@@ -1,0 +1,47 @@
+apiVersion: apps/v1beta1
+kind: StatefulSet
+metadata:
+  name: openam-node1
+spec:
+  serviceName: openam-node1
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: openam-node1
+    spec:
+      imagePullSecrets:
+      - name: myregistrykey
+      containers:
+      - name: openam-node1
+        image: tnstamp/openam-node-1:0.1
+        imagePullPolicy: Always
+        resources:
+          limits:
+            cpu: 2
+            memory: 2Gi
+          requests:
+            cpu: 1
+            memory: 1Gi
+        ports:
+        - containerPort: 1389
+          name: ldap
+        - containerPort: 1636
+          name: ldaps
+        - containerPort: 4444
+          name: djadmin
+        - containerPort: 8989
+          name: replication
+        volumeMounts:
+          - name: data
+            mountPath: /opt/opendj/data
+  volumeClaimTemplates:
+  - metadata:
+      name: data
+      annotations:
+        volume.beta.kubernetes.io/storage-class: standard
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 10Gi

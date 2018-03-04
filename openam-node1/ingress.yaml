@@ -1,0 +1,29 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+#    ingress.kubernetes.io/whitelist-source-range:
+    kubernetes.io/tls-acme: "true"
+  generation: 19
+  name: openam
+spec:
+  rules:
+  - host: localhost
+    http:
+      paths:
+      - backend:
+          serviceName: openam-node1
+          servicePort: 8090
+        path: /sso
+      - backend:
+          serviceName: openam-node1
+          servicePort: 8090
+        path: /sso/*
+  tls:
+  - hosts:
+    - auth.xxxx.com
+    secretName: external-tls-idam
+status:
+  loadBalancer:
+    ingress:
+    - ip: 127.0.0.1
